@@ -15,7 +15,7 @@ var MongoStore = require('connect-mongo')(session);
 
 var index = require('./routes/index');
 var userRoutes = require('./routes/user');
-
+var sharedCartRoutes = require('./routes/shared-carts')
 var app = express();
 
 mongoose.connect('localhost:27017/shopping');
@@ -52,6 +52,7 @@ app.use(function(req, res, next) {
 
 app.use('/user', userRoutes);
 app.use('/', index);
+app.use('/shared-carts', sharedCartRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

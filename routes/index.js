@@ -4,6 +4,7 @@ var router = express.Router();
 var Product = require('../models/product');
 var Cart = require('../models/cart');
 var Order = require('../models/order');
+var sharedCart = require('../models/sharedCart');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,7 +20,6 @@ router.get('/', function(req, res, next) {
         //means that all attributes are defined in index.hbs and we are using it by modifying ourself       
     });
 });
-// here get request is used as a req. is being received  when the button is clicked   
 router.get('/add-to-cart/:id', function (req, res) {//this id is that id which every product gets when it  get stored in database
     var productId = req.params.id;//if cart is non empty then return that else return empty {}
     var cart = new Cart(req.session.cart ? req.session.cart : {});
@@ -34,11 +34,25 @@ router.get('/add-to-cart/:id', function (req, res) {//this id is that id which e
         res.redirect('/');
     })
 });
+// here get request is used as a req. is being received  when the button is clicked   
+router.get('/add-to-shared-cart/:id', function (req, res) {//this id is that id which every product gets when it  get stored in database
+    var productId = req.params.id;//if cart is non empty then return that else return empty {}
+    
+
+});
 
 router.get('/reduce/:id', function (req, res, next) {
     var productId = req.params.id;
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     cart.reduceByOne(productId);
+    req.session.cart = cart;
+    res.redirect('/shopping-cart');
+});
+
+router.get('/showComments/:id', function (req, res, next) {
+    var productId = req.params.id;
+    var cart = new Cart(req.session.cart ? req.session.cart : {});
+    cart.removeItem(productId);
     req.session.cart = cart;
     res.redirect('/shopping-cart');
 });
@@ -61,11 +75,11 @@ router.get('/shopping-cart', function (req, res, next) {
 
 router.get('/shared-cart', function (req, res, next) {
     if(!req.session.cart) {
-        return res.render('shop/shared-cart', {products: null});
+        return res.render('shop/shared-carts', {products: null});
     }
     var cart = new Cart(req.session.cart);
-    //return res.render('shop/shared-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
-    res.redirect('http://localhost:5000/?id=private-uk54xgsq9');
+    return res.render('shop/shared-carts', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+
 });
 
 router.get('/checkout', isLoggedIn, function (req, res, next) {

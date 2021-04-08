@@ -6,6 +6,9 @@
         </div>
     </div>
 </div>
+
+
+
 <!-- deals with the front page products -->
 {{# each products }}
     <div class="row">
@@ -20,6 +23,9 @@
                         </p>
                         <div class="clearfix">
                             <div class="price pull-left">Rs. {{ this.price }}</div>
+                            <a href = "/add-to-shared-cart/{{this._id}}" class="btn btn-raised btn-success pull-right"><!--when button clicked go to add to cart -->
+                                <i class="fa fa-plus" aria-hidden="true"></i> Add to shared cart
+                            </a>
                             <a href="/add-to-cart/{{this._id}}" class="btn btn-raised btn-success pull-right"><!--when button clicked go to add to cart -->
                                 <i class="fa fa-plus" aria-hidden="true"></i> Add to shopping cart
                             </a>
@@ -30,3 +36,9 @@
     {{/each}}
     </div>
 {{/each}}
+
+<script>
+    function generateLstSharedCart(){
+
+    }
+</script>

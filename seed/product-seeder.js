@@ -98,6 +98,7 @@ var products = [
     })
 
 ];
+
 //array of product name is products
 var done = 0;
 //looping is done over all products but as we know that node is a-synchronous so when we save a particular product 
